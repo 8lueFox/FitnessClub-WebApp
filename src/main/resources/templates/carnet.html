@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="pl">
+<head>
+    <title>Fitness Club - change yourself</title>
+    <div th:replace="shared/header :: header-css"/>
+</head>
+<body class="bg-dark text-white">
+<div th:replace="shared/header :: header('carnet')"/>
+<div id="wrap">
+    <div id="main" class="container clear-top">
+        <div class="row" th:if="${param.maszJuzKarnet}">
+            <div class="col-5"></div>
+            <div class="alert alert-danger col-2 mt-3">Masz już wykupiony karnet</div>
+        </div>
+        <div class="row">
+            <span class="col-4" th:each="carnet : ${carnetList}">
+                <div class="col-2"></div>
+                <div class="col-10 bg-white text-secondary p-4 mt-5">
+                    <h3 th:text="${carnet.name}" class="mb-4"></h3>
+                    <span th:utext="${carnet.description}"></span>
+                    <h5><p class="p-2 text-dark col-12 text-center font-weight-bolder">Cena: <span
+                            th:text="${carnet.price}"></span> PLN</p></h5>
+                    <form th:method="POST" th:action="@{/carnet}" sec:authorize="isAuthenticated()">
+                        <input type="hidden" name="id" th:value="${carnet.id} - 1"/>
+                        <input type="hidden" name="username" th:value="${#authentication.getName()}"/>
+                        <button type="submit" class="btn btn-warning btn-lg btn-block">Kup karnet teraz</button>
+                    </form>
+                    <form th:method="GET" th:action="@{/login}" sec:authorize="isAnonymous()">
+                        <button type="submit" class="btn btn-warning btn-lg btn-block">Zaloguj się aby kupić karnet</button>
+                    </form>
+                </div>
+            </span>
+        </div>
+    </div>
+</div>
+<div th:replace="shared/footer :: footer"/>
+</body>
+
+</html>
+
+
+<!--<div class="row mt-5 text-secondary">-->
+<!--            <div class="col-1"></div>-->
+
+<!--            <div class="col-3 bg-white">-->
+<!--                <h3>Karnet STUDENT</h3>-->
+<!--                <ul class="mt-4">-->
+<!--                    <li>Wejście za free przez cały miesiąc</li>-->
+<!--                    <li>Dostęp do siłowni</li>-->
+<!--                    <li>Konsultacje z trenerem i pomiary składu ciała</li>-->
+<!--                    <li>Płatność automatyczna kartą</li>-->
+<!--                    <li>Zniżka podczas sesji</li>-->
+<!--                </ul>-->
+<!--                <h5><p class="p-2 text-danger col-12 text-center font-weight-bolder">Cena: 69 PLN</p></h5>-->
+<!--                    <form th:method="POST" th:action="@{/carnet}">-->
+<!--                        <input type="hidden" name="id" value="1"/>-->
+<!--                        <input type="hidden" name="username" th:value ="${#authentication.getName()}"/>-->
+<!--                        <button type="submit" class="btn btn-warning btn-lg btn-block">Kup karnet teraz</button>-->
+<!--                    </form>-->
+<!--            </div>-->
+
+<!--            <div class="col-1"></div>-->
+
+<!--            <div class="col-3 bg-white pb-2">-->
+<!--                <h3>Karnet NORMAL</h3>-->
+<!--                <ul class="mt-4">-->
+<!--                    <li>Wejście za free przez cały miesiąc</li>-->
+<!--                    <li>Dostęp do siłowni i wybranych zajęć</li>-->
+<!--                    <li>Konsultacje z trenerem i pomiary składu ciała</li>-->
+<!--                    <li>Płatność automatyczna kartą</li>-->
+<!--                </ul>-->
+<!--                <h5><p class="p-2 text-danger col-12 text-center font-weight-bolder">Cena: 99 PLN</p></h5>-->
+<!--                <form th:method="POST" th:action="@{/carnet}">-->
+<!--                    <input type="hidden" name="id" id="id" value="2"/>-->
+<!--                    <input type="hidden" name="username" id="username" th:value ="${#authentication.getName()}"/>-->
+<!--                    <button type="submit" class="btn btn-warning btn-lg btn-block">Kup karnet teraz</button>-->
+<!--                </form>-->
+<!--            </div>-->
+
+<!--            <div class="col-1"></div>-->
+
+<!--            <div class="col-3 bg-white">-->
+<!--                <h3>Karnet SENIOR</h3>-->
+<!--                <ul class="mt-4">-->
+<!--                    <li>Wejście za free przez cały miesiąc</li>-->
+<!--                    <li>Dostęp do siłowni i wybranych zajęć</li>-->
+<!--                    <li>Konsultacje z trenerem i pomiary składu ciała</li>-->
+<!--                    <li>Płatność automatyczna kartą</li>-->
+<!--                </ul>-->
+<!--                <h5><p class="p-2 text-danger col-12 text-center font-weight-bolder">Cena: 95 PLN</p></h5>-->
+<!--                <form th:method="POST" th:action="@{/carnet}">-->
+<!--                    <input type="hidden" name="id" value="3"/>-->
+<!--                    <input type="hidden" name="username" th:value ="${#authentication.getName()}"/>-->
+<!--                    <button type="submit" class="btn btn-warning btn-lg btn-block">Kup karnet teraz</button>-->
+<!--                </form>-->
+<!--            </div>-->
+
+<!--            <div class="col-3 bg-white">-->
+<!--                <h3>Karnet SENIOR</h3>-->
+<!--                <ul class="mt-4">-->
+<!--                    <li>Wejście za free przez cały miesiąc</li>-->
+<!--                    <li>Dostęp do siłowni i wybranych zajęć</li>-->
+<!--                    <li>Konsultacje z trenerem i pomiary składu ciała</li>-->
+<!--                    <li>Płatność automatyczna kartą</li>-->
+<!--                </ul>-->
+<!--                <h5><p class="p-2 text-danger col-12 text-center font-weight-bolder">Cena: 95 PLN</p></h5>-->
+<!--                <form th:method="POST" th:action="@{/carnet}">-->
+<!--                    <input type="hidden" name="id" value="3"/>-->
+<!--                    <input type="hidden" name="username" th:value ="${#authentication.getName()}"/>-->
+<!--                    <button type="submit" class="btn btn-warning btn-lg btn-block">Kup karnet teraz</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--</div>-->

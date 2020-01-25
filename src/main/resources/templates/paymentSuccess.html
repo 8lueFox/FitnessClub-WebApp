@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <title>Fitness Club - change yourself</title>
+    <div th:replace="shared/header :: header-css"/>
+</head>
+<body class="bg-dark text-white">
+<div th:replace="shared/header :: header('home')"/>
+<div id="wrap">
+    <div id="main" class="container clear-top">
+        <div class="col-4"></div>
+        <div class="col-6 mt-5">
+            <h3 th:text="${user}" class="text-warning"></h3> właśnie kupiłeś <span class="text-warning" th:text="${carnet}"></span><br>
+            Dziękujemy za zaufanie i życzymy dużych sukcesów.
+        </div>
+    </div>
+</div>
+<div th:replace="shared/footer :: footer"/>
+</body>
+
+</html>
+

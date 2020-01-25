@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <title>Fitness Club - change yourself</title>
+    <div th:replace="shared/header :: header-css"/>
+</head>
+<body class="bg-dark text-white">
+<div th:replace="shared/header :: header('home')"/>
+<div id="wrap">
+    <div id="main" class="container clear-top">
+       <form th:method="POST" th:action="@{paided}" class="form-group">
+           <input type="text" class="form-control" placeholder="Kod BLIK">
+           <input type="hidden" class="form-control" name="carnetId" th:value="${carnetId}">
+           <input type="hidden" class="form-control" name="username" th:value="${username}">
+           <button type="submit" class="btn btn-warning btn-block btn-lg">Zapłać teraz</button>
+       </form>
+    </div>
+</div>
+<div th:replace="shared/footer :: footer"/>
+</body>
+
+</html>
+

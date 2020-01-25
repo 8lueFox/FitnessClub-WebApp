@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <title>Fitness Club - change yourself</title>
+    <div th:replace="shared/header :: header-css"/>
+</head>
+<body class="bg-dark text-white">
+<div th:replace="shared/header :: header('home')"/>
+<div id="wrap">
+    <div id="main" class="container clear-top">
+        <div class="col-4"></div>
+        <div class="col-4 mt-5">
+            <form th:method="POST" th:action="@{/registerConfirm}">
+                <input type="text" class="form-control" name="idUser" id="idUser" value="??">
+                <button type="submit" class="btn btn-warning">Potwierdź rejestrację</button>
+            </form>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
+<div th:replace="shared/footer :: footer"/>
+</body>
+
+</html>
+

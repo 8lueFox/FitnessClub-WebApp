@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<footer class="footer font-small" th:fragment="footer">
+    <div class="footer-copyright text-center py-3">© <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}"></span> Copyright: <span class="text-warning">Kacper Jędrzejewski</span>
+    </div>
+</footer>
+</body>
+</html>
