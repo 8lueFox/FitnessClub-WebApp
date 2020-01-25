@@ -9,6 +9,7 @@
 <div id="wrap">
     <div id="main" class="container clear-top">
 
+        <div th:replace="shared/pagination :: pager('/workout', ${workoutListPage})"></div>
     </div>
 </div>
 <div th:replace="shared/footer :: footer"/>
