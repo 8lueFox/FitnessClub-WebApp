@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,6 +24,8 @@ public class Carnet {
     private int price;
     @NotBlank
     private String description;
+    @ManyToMany(mappedBy = "carnets")
+    private Set<Workout> workouts;
 
     public Carnet(String name, int price, String description){
         this.name = name;

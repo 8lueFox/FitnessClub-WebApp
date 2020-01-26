@@ -1,14 +1,110 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<html xmlns:th="http://www.thymeleaf.org" lang="pl" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title>Fitness Club - change yourself</title>
     <div th:replace="shared/header :: header-css"/>
+    <style>
+        .btn-secondary-outline{
+            background-color: transparent;
+            border-color: #ffc107;
+            color: #f7f7f7;
+        }
+        .btn-secondary-outline:hover{
+            background-color: #ffc107;
+            color: #343a40;
+        }
+        .btn-primary-outline{
+            background-color: transparent;
+            border-color: #007bff;
+            color: #f7f7f7;
+        }
+        .btn-primary-outline:hover{
+            background-color: #007bff;
+            color: #343a40;
+        }
+    </style>
 </head>
 <body class="bg-dark text-white">
 <div th:replace="shared/header :: header('workout')"/>
 <div id="wrap">
     <div id="main" class="container clear-top">
+        <form class="pt-3" th:method="POST" th:action="workout" th:object="${searchCommand}">
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <input placeholder="Nazwa" class="form-control" th:field="*{name}">
+                </div>
+                <div class="form-group col-md-3">
+                    <input placeholder="Prowadzący" class="form-control" th:field="*{trainer}">
+                </div>
+<!--                <div class="form-group col-md-2">-->
+<!--                    <input placeholder="Rodzaj karnetu" class="form-control" th:field="*{carnet}">-->
+<!--                </div>-->
+                <div class="form-group col-md-2">
+                    <input placeholder="Po godzinie:" class="form-control" type="number" th:field="*{hour}">
+                </div>
+<!--                <div class="form-group col-md-2">-->
+<!--                    <input placeholder="Dzień" class="form-control" th:field="*{day}">-->
+<!--                </div>-->
+            </div>
+                <div class="form-group mr-1" style="float: right;">
+                    <button type="submit" class="btn btn-secondary-outline">
+                        Wyszukaj
+                    </button>
+                </div>
+                <div class="form-group mr-1" style="float: right">
+                    <button type="submit" class="btn btn-primary-outline">
+                        Pokaż wszystko
+                    </button>
+                </div>
+        </form>
 
+        <table class="table table-dark mt-5">
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Prowadzący</th>
+                    <th>Lista ćwiczeń</th>
+                    <th>Room</th>
+                    <th>Czas rozpoczęcia</th>
+                    <th>Czas trwania</th>
+                    <th>Dzień</th>
+                    <th>Dla kogo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="workout : ${workoutListPage}">
+                    <td class="text-warning" th:text="${workout.name}">Name</td>
+                    <td th:text="${workout.user.username}">Room</td>
+                    <td class="dropdown">
+                        <span class="dropdown-toggle" id="listaCwiczen" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Cwiczenia
+                        </span>
+                        <div class="dropdown-menu" aria-labelledby="listaCwiczen">
+                            <div class="dropdown-text" th:each="exercise : ${workout.exercises}">
+                                <span th:text="${exercise.name}"></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td th:text="${workout.room.name}">Room</td>
+                    <td th:text="${workout.time.minutes < 10}?${workout.time.hour}+':'+'0'+${workout.time.minutes}:${workout.time.hour}+':'+${workout.time.minutes}">Time</td>
+                    <td th:text="${workout.duration} + 'min'">Duration</td>
+                    <td th:text="${workout.day}">Day</td>
+                    <td class="dropdown" th:if="${workout.carnets.size() > 1}">
+                        <span class="dropdown-toggle" id="listaKarnetów" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dla kogo?
+                        </span>
+                        <div class="dropdown-menu" aria-labelledby="listaCwiczen">
+                            <div class="dropdown-text" th:each="carnet : ${workout.carnets}">
+                                <span th:text="${carnet.name}"></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td th:if="${workout.carnets.size() == 1}">
+                        <span th:each="carnet : ${workout.carnets}">[[${carnet.name}]]</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
         <div th:replace="shared/pagination :: pager('/workout', ${workoutListPage})"></div>
     </div>
 </div>

@@ -1,11 +1,7 @@
 package com.kacper.fitnessclub.config;
 
-import com.kacper.fitnessclub.models.Carnet;
-import com.kacper.fitnessclub.models.Role;
-import com.kacper.fitnessclub.models.User;
-import com.kacper.fitnessclub.repositories.CarnetRepository;
-import com.kacper.fitnessclub.repositories.RoleRepository;
-import com.kacper.fitnessclub.repositories.UserRepository;
+import com.kacper.fitnessclub.models.*;
+import com.kacper.fitnessclub.repositories.*;
 import com.kacper.fitnessclub.services.UserServices;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 @Configuration
 public class RepositoriesInitializer {
@@ -30,6 +27,12 @@ public class RepositoriesInitializer {
     private CarnetRepository carnetRepository;
     @Autowired
     private UserServices userServices;
+    @Autowired
+    ExerciseRepository exerciseRepository;
+    @Autowired
+    RoomRepository roomRepository;
+    @Autowired
+    WorkoutRepository workoutRepository;
 
     @Bean
     InitializingBean init(){
@@ -64,8 +67,7 @@ public class RepositoriesInitializer {
                 userRepository.save(menager);
                 userRepository.save(employee);
                 userRepository.save(user);
-            }
-            if(carnetRepository.findAll().isEmpty()){
+
                 Carnet student = new Carnet("Karnet STUDENT", 69, "<ul>\n" +
                         "<li>Wejście za free przez cały miesiąc</li>\n" +
                         "<li>Dostęp do siłowni</li>\n" +
@@ -89,6 +91,49 @@ public class RepositoriesInitializer {
                 carnetRepository.save(normal);
                 carnetRepository.save(senior);
 
+                Exercise exercise1 = new Exercise("Plank", Exercise.Level.Hard);
+                Exercise exercise2 = new Exercise("Skakanka", Exercise.Level.Medium);
+                Exercise exercise3 = new Exercise("Brzuszki", Exercise.Level.Easy);
+                exerciseRepository.save(exercise1);
+                exerciseRepository.save(exercise2);
+                exerciseRepository.save(exercise3);
+
+                Room room1 = new Room("Mała sala nr 1");
+                Room room2 = new Room("Mała sala nr 2");
+                Room room3 = new Room("Duża sala nr 1");
+                roomRepository.save(room1);
+                roomRepository.save(room2);
+                roomRepository.save(room3);
+
+                Set<Exercise> z1 = new HashSet<>();
+                z1.add(exercise1);
+                z1.add(exercise2);
+
+                Set<Exercise> z2 = new HashSet<>();
+                z2.add(exercise1);
+                z2.add(exercise3);
+
+                Set<Exercise> z3 = new HashSet<>();
+                z3.add(exercise2);
+                z3.add(exercise3);
+
+                Set<Carnet> c1 = new HashSet<>();
+                Set<Carnet> c2 = new HashSet<>();
+                Set<Carnet> c3 = new HashSet<>();
+
+                c1.add(senior);
+                c2.add(student);
+                c2.add(normal);
+
+                c3.add(normal);
+
+                Workout workout1 = new Workout("Tabata", z1, room1, 15, 0, 45, Workout.Day.Poniedzialek, employee, c3);
+                Workout workout2 = new Workout("Szybkie spalanie", z3, room2, 9, 30, 60, Workout.Day.Sroda, employee, c2);
+                Workout workout3 = new Workout("Be Younger", z2, room3, 19, 45, 30, Workout.Day.Piatek, employee, c1);
+
+                workoutRepository.save(workout1);
+                workoutRepository.save(workout2);
+                workoutRepository.save(workout3);
             }
         };
     }
