@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <title>Fitness Club - change yourself</title>
+    <div th:replace="shared/header :: header-css"/>
+</head>
+<body class="bg-dark text-white">
+<div th:replace="shared/header :: header('home')"/>
+<div id="wrap">
+    <div id="main" class="container clear-top">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 mt-5">
+                <h4 class="text-warning">Add/Save Room</h4>
+                <form th:method="POST" th:object="${room}" th:action="@{/administer(room)}">
+                    <input type="hidden" id="id" th:field="*{id}">
+                    <div class="form-group row">
+                        <input type="text" class="form-control" placeholder="Nazwa pokoju" autofocus="true" id="nazwa" th:field="*{name}">
+                    </div>
+                    <button type="submit" class="btn btn-warning">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="shared/footer :: footer"/>
+</body>
+
+</html>
+

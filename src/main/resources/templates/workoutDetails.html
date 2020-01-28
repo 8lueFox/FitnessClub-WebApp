@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <title>Fitness Club - change yourself</title>
+    <div th:replace="shared/header :: header-css"/>
+</head>
+<body class="bg-dark text-white">
+<div th:replace="shared/header :: header('home')"/>
+<div id="wrap">
+    <div id="main" class="container clear-top">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 mt-5">
+                <h4 class="text-warning mb-3">Dodawanie/Edycja treningu</h4>
+                <form th:method="POST" th:object="${workout}" th:action="@{/administer(workout)}">
+                    <input type="hidden" id="id" th:field="*{id}">
+                    <div class="form-group row">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="nazwa">Nazwa</label>
+                            </div>
+                            <input type="text" class="form-control" autofocus="true" id="nazwa" th:field="*{name}">
+                            <div class="error text-danger" th:if="${#fields.hasErrors('name')}">
+                                <span th:each="err : ${#fields.errors('name')}" th:text="${err}"></span>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="trener">Trener</label>
+                            </div>
+                            <select th:field="${workout.employee.id}" class="form-control" id="trener">
+                                <option value="-1"> -- wybierz trenera -- </option>
+                                <option th:each="trainer : ${trainers}" th:value="${trainer.id}" th:text="${trainer.imie}"></option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="cwiczenia">Cwiczenia</label>
+                            </div>
+                            <div th:each="exercise : ${exercises}" class="checkbox ml-2" id="cwiczenia">
+                                <input th:id="${exercise}" type="checkbox" th:field="*{exercises}" th:value="${exercise.id}">
+                                <label th:text="${exercise.name}" th:for="${exercise}"></label>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="room">Pokój</label>
+                            </div>
+                            <select th:field="${workout.room.id}" class="form-control" id="room">
+                                <option value="-1"> -- wybierz trenera -- </option>
+                                <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.name}"></option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="czas">Czas rozpoczęcia(godzina:minuty)</label>
+                            </div>
+                            <input type="text" class="form-control" id="czas" th:field="*{time.hour}">
+                            <input type="text" class="form-control" th:field="*{time.minutes}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="duration">Czas trwania</label>
+                            </div>
+                            <input type="text" class="form-control" id="duration" th:field="*{duration}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="select">Dzień tygodnia</label>
+                            </div>
+                            <select class="custom-select" th:field="*{day}" id="select">
+                                <option value="-1">-- wybierz dzień tygodnia --</option>
+                                <option value="Poniedzialek">Poniedziałek</option>
+                                <option value="Wtorek">Wtorek</option>
+                                <option value="Sroda">Sroda</option>
+                                <option value="Czwartek">Czwartek</option>
+                                <option value="Piatek">Piątek</option>
+                                <option value="Sobota">Sobota</option>
+                                <option value="Niedziela">Niedziela</option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="forWho">Dla kogo?</label>
+                            </div>
+                            <div th:each="carnet : ${carnets}" class="checkbox ml-2" id="forWho">
+                                <input th:id="${carnet}" type="checkbox" th:field="${workout.carnets}" th:value="${carnet.id}">
+                                <label th:text="${carnet.name}" th:for="${carnet}"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="shared/footer :: footer"/>
+</body>
+
+</html>
+
+
+
+<!--<form th:method="POST" th:object="${workout}" th:action="@{/administer(workout)}">-->
+<!--    <div class="form-group row">-->
+<!--        <div class="input-group mb-2">-->
+<!--            <div class="input-group-prepend">-->
+<!--                <label class="input-group-text pl-3" for="id">ID</label>-->
+<!--            </div>-->
+<!--            <input type="text" id="id" disabled class="form-control" th:field="${workout.id}">-->
+<!--        </div>-->
+
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--        <div class="input-group-prepend">-->
+<!--            <label class="input-group-text pl-3" for="name">Nazwa</label>-->
+<!--        </div>-->
+<!--        <input type="text"class="form-control" id="name" th:field="${workout.name}" autofocus="true">-->
+<!--    </div>-->
+
+<!--    <div class="form-group">-->
+<!--        <select th:field="${workout.employee.id}" class="form-control">-->
+<!--            <option value="-1"> &#45;&#45; wybierz trenera &#45;&#45; </option>-->
+<!--            <option th:each="trainer : ${trainers}" th:value="${trainer.id}" th:text="${trainer.imie}"></option>-->
+<!--        </select>-->
+<!--    </div>-->
+
+<!--</form>-->

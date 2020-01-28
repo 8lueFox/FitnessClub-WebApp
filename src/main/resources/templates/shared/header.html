@@ -58,7 +58,7 @@
                     <span class="dropdown-item-text text-warning font-weight-bold" sec:authentication="name"></span>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Profile</a>
-                    <a class="dropdown-item" href="#" sec:authorize="hasAuthority('MENAGER')">Zarządzaj</a>
+                    <a class="dropdown-item" href="/administer" sec:authorize="hasAuthority('MENAGER')">Zarządzaj</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" onclick="document.getElementById('logout').submit()">
                         <form th:action="@{/logout}" id="logout" method="post" style="display: none;">

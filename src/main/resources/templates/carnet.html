@@ -23,7 +23,7 @@
                     <h5><p class="p-2 text-dark col-12 text-center font-weight-bolder">Cena: <span
                             th:text="${carnet.price}"></span> PLN</p></h5>
                     <form th:method="POST" th:action="@{/carnet}" sec:authorize="isAuthenticated()">
-                        <input type="hidden" name="id" th:value="${carnet.id} - 1"/>
+                        <input type="hidden" name="id" th:value="${carnet.id - 1}"/>
                         <input type="hidden" name="username" th:value="${#authentication.getName()}"/>
                         <button type="submit" class="btn btn-warning btn-lg btn-block">Kup karnet teraz</button>
                     </form>

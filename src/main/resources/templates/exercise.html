@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <title>Fitness Club - change yourself</title>
+    <div th:replace="shared/header :: header-css"/>
+</head>
+<body class="bg-dark text-white">
+<div th:replace="shared/header :: header('home')"/>
+<div id="wrap">
+    <div id="main" class="container clear-top">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 mt-5">
+                <h4 class="text-warning">Add/Save Exercise</h4>
+                <form th:method="POST" th:object="${exercise}" th:action="@{/administer(exercise)}">
+                    <input type="hidden" id="id" th:field="*{id}">
+                    <div class="form-group row">
+                        <input type="text" class="form-control" placeholder="Nazwa ćwiczenia" autofocus="true" id="nazwa" th:field="*{name}">
+                    </div>
+                    <div class="form-group row">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="select">Poziom trudności</label>
+                            </div>
+                            <select class="custom-select" th:field="*{level}" id="select">
+                                <option value="Easy">Easy</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Hard">Hard</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="shared/footer :: footer"/>
+</body>
+
+</html>
+

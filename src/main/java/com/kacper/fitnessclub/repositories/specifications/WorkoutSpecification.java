@@ -19,7 +19,7 @@ public class WorkoutSpecification {
         return (root, query, cb) -> {
             if(StringUtils.isEmpty(trainer)) return null;
             String phraseLike = "%"+trainer.toUpperCase()+"%";
-            return cb.like(cb.upper(root.get(Workout_.user).get(User_.USERNAME)), phraseLike);
+            return cb.like(cb.upper(root.get(Workout_.employee).get("imie")), phraseLike);
         };
     }
 

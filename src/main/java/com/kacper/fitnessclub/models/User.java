@@ -23,6 +23,7 @@ public class User {
     private Integer id;
     @Size(min = 2, max = 36)
     private String username;
+    @Size(min = 6, max = 256)
     private String password;
     @Transient
     private String passwordConfirm;

@@ -2,9 +2,11 @@ package com.kacper.fitnessclub.services;
 
 import com.kacper.fitnessclub.config.ProfileNames;
 import com.kacper.fitnessclub.exceptions.ObjectNotFoundException;
+import com.kacper.fitnessclub.models.Employee;
 import com.kacper.fitnessclub.models.Role;
 import com.kacper.fitnessclub.models.User;
 import com.kacper.fitnessclub.repositories.CarnetPurchaseHistoryRepository;
+import com.kacper.fitnessclub.repositories.EmployeeRepository;
 import com.kacper.fitnessclub.repositories.RoleRepository;
 import com.kacper.fitnessclub.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ public class UserServicesImpl implements UserServices{
     private PasswordEncoder passwordEncoder;
     @Autowired
     private CarnetPurchaseHistoryRepository carnetPurchaseHistoryRepository;
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @Override
     public void save(User user) {
@@ -39,6 +43,7 @@ public class UserServicesImpl implements UserServices{
         user.setRoles(new HashSet<>(roles));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPasswordConfirm(null);
+        user.setEnabled(true);
         userRepository.saveAndFlush(user);
     }
 
@@ -77,7 +82,7 @@ public class UserServicesImpl implements UserServices{
     public Integer checkCarnet(Integer userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         User user = userOptional.orElse(new User());
-        if(carnetPurchaseHistoryRepository.findCarnetBoughtByUser(user.getId()) > 0){
+        if(carnetPurchaseHistoryRepository.findCarnetBoughtByUser(user.getId()) != null){
             return 1;
         }
         return 0;
@@ -101,4 +106,8 @@ public class UserServicesImpl implements UserServices{
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, grantedAuthorities);
     }
 
+//    private List<User> sprawdzTO(){
+//        List<Employee> listEm = employeeRepository.findAll();
+//        return userRepository.;
+//    }
 }

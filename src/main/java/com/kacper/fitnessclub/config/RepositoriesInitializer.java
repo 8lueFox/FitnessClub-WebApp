@@ -33,6 +33,8 @@ public class RepositoriesInitializer {
     RoomRepository roomRepository;
     @Autowired
     WorkoutRepository workoutRepository;
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @Bean
     InitializingBean init(){
@@ -59,6 +61,11 @@ public class RepositoriesInitializer {
                 menager.setEmail("menager@int.pl");
 
                 User employee = new User("employee", true);
+                employee.setRoles(new HashSet<>(Arrays.asList(roleEmployee)));
+                employee.setPassword(passwordEncoder.encode("employee"));
+                employee.setEmail("employee@int.pl");
+
+                User employee2 = new User("employee2", true);
                 employee.setRoles(new HashSet<>(Arrays.asList(roleEmployee)));
                 employee.setPassword(passwordEncoder.encode("employee"));
                 employee.setEmail("employee@int.pl");
@@ -127,9 +134,13 @@ public class RepositoriesInitializer {
 
                 c3.add(normal);
 
-                Workout workout1 = new Workout("Tabata", z1, room1, 15, 0, 45, Workout.Day.Poniedzialek, employee, c3);
-                Workout workout2 = new Workout("Szybkie spalanie", z3, room2, 9, 30, 60, Workout.Day.Sroda, employee, c2);
-                Workout workout3 = new Workout("Be Younger", z2, room3, 19, 45, 30, Workout.Day.Piatek, employee, c1);
+                Employee e1 = new Employee(employee, "Kasia");
+
+                employeeRepository.save(e1);
+
+                Workout workout1 = new Workout("Tabata", z1, room1, 15, 0, 45, Workout.Day.Poniedzialek, e1, c3);
+                Workout workout2 = new Workout("Szybkie spalanie", z3, room2, 9, 30, 60, Workout.Day.Sroda, e1, c2);
+                Workout workout3 = new Workout("Be Younger", z2, room3, 19, 45, 30, Workout.Day.Piatek, e1, c1);
 
                 workoutRepository.save(workout1);
                 workoutRepository.save(workout2);
